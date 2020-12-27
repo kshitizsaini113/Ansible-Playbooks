@@ -1,0 +1,42 @@
+- hosts: web
+  tasks:
+  - name: "Adding Docker yum repository"
+    yum_repository:
+      name: "Docker"
+      description: "Docker repository for RHEL8"
+      baseurl: "https://download.docker.com/linux/centos/7/x86_64/stable/"
+      gpgcheck: no
+      enabled: yes  
+  - name: "Installing the docker-ce module"
+    command: 
+      cmd: "yum install docker-ce --nobest -y"
+      warn: false
+  - name: "Starting the Docker services"
+    service:
+      name: "docker"
+      state: started
+  - name: "Installing the python on our device"
+    package:
+      name: "python36"
+      state: present
+  - name: "Installing the required pip modules"
+    pip:
+      name: 
+      - "requests"
+      - "docker" 
+  - name: "Pulling an image from DockerHub"
+    docker_image:
+      name: "httpd"
+      source: pull
+  - name: "Copying files to host machine"
+    copy:
+      src: "index.html"
+      dest: "/var/www/html"
+  - name: "Running the Docker Container"
+    docker_container:
+      name: "task_10"
+      image: "httpd"
+      ports: "82:80"
+      state: started
+      detach: yes
+      volumes: "/var/www/html/:/usr/local/apache2/htdocs/"
