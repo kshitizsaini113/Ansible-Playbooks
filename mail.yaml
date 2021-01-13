@@ -1,0 +1,11 @@
+- hosts: 127.0.0.1
+  tasks:
+  - name: Sending an e-mail using GMail SMTP server
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: ***
+      password: ***
+      to: ***
+      subject: "Mail from ansible"
+      body: System {{ ansible_hostname }} has been succesfully provisioned.
