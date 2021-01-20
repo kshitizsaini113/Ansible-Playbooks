@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+  - service:
+     name: "httpd"
+     state: stopped
+  - file:
+     path: "/var/www/html/index.html"
+     state: absent
+  - package:
+     name: "httpd"
+     state: absent
