@@ -1,0 +1,4 @@
+authname "Authentication from Ansible"
+authtype basic
+authuserfile /etc/www.passwd
+require valid-user

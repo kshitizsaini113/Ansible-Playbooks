@@ -1,0 +1,24 @@
+- hosts: load
+  tasks:
+  - package:
+      name: "httpd"
+      state: present
+  - copy:
+      dest: "/var/www/html/index.html"
+      content: "Hello from Ansinle!"
+  - replace:
+      path: "/etc/httpd/conf/httpd.conf"
+      regexp: "AllowOverride None"
+      replace: "AllowOverride AuthConfig"
+  - copy:
+      dest: "/var/www/html/.htaccess"
+      src: "010_htaccess"
+  - pip:
+      name: "passlib"
+  - htpasswd:
+      path: "/etc/www.passwd"
+      name: "kshitiz"
+      password: "test_pwd"
+  - service:
+      name: "httpd"
+      state: restarted
