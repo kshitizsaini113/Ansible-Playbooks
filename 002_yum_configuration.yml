@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+  - file:
+      state: directory
+      path: "/cd"
+      # Creates a directory
+  - mount:
+      path: "/cd"
+      src: "/dev/cdrom"
+      state: mounted
+      fstype: "iso9660"
+      # Mounts the RHEL8 DVD using the <iso9660> format
+  - yum_repository:
+      name: "AppStream"
+      description: "AppStream from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file:///cd/AppStream/"
+      gpgcheck: no
+  - yum_repository:
+      name: "BaseOS"
+      description: "BaseOS from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file:///cd/BaseOS/"
+      gpgcheck: no 
