@@ -1,0 +1,46 @@
+- hosts: all
+  vars:
+    - dvdDir: "/cd"
+  tasks:
+  - file:
+      state: directory
+      path: "{{ dvdDir }}"
+  - mount:
+      src: "/dev/cdrom"
+      path: "{{ dvdDir }}"
+      state: mounted
+      fstype: "iso9660"
+  - yum_repository:
+      name: "AppStream"
+      description: "AppStream from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file://{{ dvdDir }}/AppStream/"
+      gpgcheck: no
+  - yum_repository:
+      name: "BaseOS"
+      description: "BaseOS from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file://{{ dvdDir }}/BaseOS/"
+      gpgcheck: no
+  - package:
+      name: "httpd"
+      state: present
+  - file:
+      path: "/var/www/db"
+      state: directory
+      mode: "0755"
+  - copy:
+      src: "005_db.conf"
+      dest: "/etc/httpd/conf.d/db.conf"
+  - copy:
+      src: "index.html"
+      dest: "/var/www/db/index.html"
+  - service:
+      name: "httpd"
+      state: restarted
+      enabled: yes
+  - ansible.posix.firewalld:
+      port: "81/tcp"
+      permanent: yes
+      state: enabled
+      immediate: yes
