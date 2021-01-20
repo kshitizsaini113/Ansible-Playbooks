@@ -1,0 +1,45 @@
+- hosts: all
+  tasks:
+  - file:
+      state: directory
+      path: "/cd"
+      # Creates a directory
+  - mount:
+      src: "/dev/cdrom"
+      path: "/cd"
+      state: mounted
+      fstype: "iso9660"
+      # Mounts the RHEL8 DVD using the <iso9660> format
+  - yum_repository:
+      name: "AppStream"
+      description: "AppStream from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file:///cd/AppStream/"
+      gpgcheck: no
+      # Add AppStream as a repo for yum
+  - yum_repository:
+      name: "BaseOS"
+      description: "BaseOS from RHEL8 DVD"
+      file: "cd"
+      baseurl: "file:///cd/BaseOS/"
+      gpgcheck: no
+      # Add BaseOS as a repo for yum
+  - package:
+      name: "httpd"
+      state: present
+      # Installs the Apache WebServer
+  - copy:
+      src: "index.html"
+      dest: "/var/www/html/index.html"
+      # Copies the file to be hosted
+  - service:
+      name: "httpd"
+      state: started
+      enabled: yes
+      # Starts the ApacheWebserver services
+  - ansible.posix.firewalld:
+      port: "80/tcp"
+      permanent: yes
+      state: enabled
+      immediate: yes
+      # Adds entry to the Selinux and firewall services to be accessed from outside world
