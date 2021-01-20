@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars_files:
+    - 009_vars.yml
+  tasks:
+  - name: "Degugging the variables from Variable File"
+    debug:
+      msg: "Hello {{ full_name }}, {{ phone }}"
