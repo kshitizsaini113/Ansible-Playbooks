@@ -1,0 +1,9 @@
+---
+- hosts: 127.0.0.1
+  vars_prompt:
+    name: full_name
+    prompt: "What is your name"
+    private: no
+  tasks:
+  - debug:
+      msg: "Hello {{ full_name }}"
