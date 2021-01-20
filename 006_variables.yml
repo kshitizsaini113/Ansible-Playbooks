@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars:
+    - full_name: "Kshitiz Saini"
+    - phone: 113
+  tasks:
+  - debug:
+      msg: "Hello {{ full_name }}, {{ phone }}"
