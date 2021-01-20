@@ -1,0 +1,24 @@
+- hosts: web
+  tasks:
+  - package:
+      name: "httpd"
+      state: present
+  - copy:
+      dest: "/var/www/html/index.html"
+      src: "index.html"
+  - service:
+      name: "httpd"
+      state: restarted
+
+
+- hosts: load
+  tasks:
+  - package:
+      name: "haproxy"
+      state: present
+  - template:
+      dest: "/etc/haproxy/haproxy.cfg"
+      src: "011_haproxy.cfg"
+  - service:
+      name: "haproxy"
+      state: restarted
