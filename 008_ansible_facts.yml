@@ -1,0 +1,7 @@
+---
+- hosts: 127.0.0.1
+  tasks:
+  - debug:
+      msg: "{{ ansible_facts['memory_mb']['real']['free'] }}"
+  - debug:
+      var: ansible_facts["default_ipv4"]["address"]
