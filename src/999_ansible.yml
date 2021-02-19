@@ -1,0 +1,32 @@
+- hosts: all
+  tasks:
+  - name: "Creating a directory for mounting the RedHat DVD"
+    file:
+      state: directory
+      path: "/dvd"
+  - name: "Mounting the RedHat software DVD"
+    mount:
+      path: "/cd"
+      src: "/dev/cdrom"
+      state: mounted
+      fstype: "iso9660"
+  - name: "Adding the repositories to yum"
+    yum_repository:
+      name: "AppStream"
+      description: "AppStream repo for RHEL8"
+      file: "dvd"
+      baseurl: "file:///dvd/AppStream/"
+      gpgcheck: no
+  - name: "Adding the repositories to yum"
+    yum_repository:
+      name: "BaseOS"
+      description: "BaseOS repo for RHEL8"
+      file: "dvd"
+      baseurl: "file:///dvd/BaseOS/"
+      gpgcheck: no
+  - name: "Installing the EPEL Repository"
+    command: 
+      cmd: "dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y"
+      warn: false
+    changed_when: false
+  
