@@ -1,8 +1,12 @@
 # Ansible-Playbooks
 
+![Ansible.jpg](Ansible.jpg)
+
 Ansible is an **Open-Source IT Automation Engine** which is used to automate application deployment, infrastructure automation, cloud provisioning and many IT services. Ansible improves the *scalability, consistency & reliability* of the IT environment. 
 
 This repository contains various Ansible playbooks to achieve automation using Ansible.
+
+Handwritten Notes are available in [AutomationUsingAnsible.pdf](AutomationUsingAnsible.pdf)
 
 ## Blogs
 
